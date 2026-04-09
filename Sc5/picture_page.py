@@ -1,81 +1,58 @@
 import streamlit as st
+import random
 import time
 
-# --- PURE DIGITAL-FORENSIC STYLE (RESTORED VIBE) ---
+# --- STEP 1: DYNAMIC LOGIC ---
+# This makes the percentage change every time the page runs
+percent = round(random.uniform(92.1, 99.8), 1)
+
+# --- STEP 2: STYLING ---
 st.markdown("""
     <style>
-    /* 1. Sets the new digital background image (glowing circuit lines) */
-    .stApp {
-        background: url("https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2000&auto=format&fit=crop");
+    .main {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                    url("https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80");
         background-size: cover;
     }
-    
-    /* 2. Style for the overall content box (it's now mostly transparent with a glowing border) */
-    div.block-container {
-        background-color: rgba(20, 0, 40, 0.4); /* Much more transparent so you see the picture */
-        padding: 40px;
-        border-radius: 15px;
-        border: 2px solid #a020f0; /* Purple glow border */
+    .stButton>button {
+        width: 100%;
+        border-radius: 5px;
+        height: 3em;
+        background-color: #1f2937;
+        color: white;
+        border: 1px solid #374151;
     }
-    
-    /* 3. Headline Style (BRIGHT white for maximum visibility) */
-    h1 {
-        color: #ffffff !important; 
-        text-shadow: 0px 0px 15px #ffffff;
-        font-family: 'Courier New', monospace;
-    }
-    
-    /* 4. Secondary text, labels, etc. (White) */
-    .stCaption, p, div, label {
-        color: #ffffff !important; 
-    }
-    
-    /* 5. Glowing accents (Green) for metrics and indicators */
-    span.stMetricValue {
-        color: #00ff00 !important;
-        text-shadow: 0px 0px 10px #00ff00;
+    .stButton>button:hover {
+        border-color: #00d4ff;
+        color: #00d4ff;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# --- PRO HEADER ---
-c1, c2 = st.columns([3, 1])
-with c1: st.caption("🔍 PIXEL FORENSICS // SGHSC TECH LAB")
-with c2: st.caption("🟢 SCANNER: READY")
-st.write("---")
-
+# --- STEP 3: HEADER ---
+st.markdown("### 🔍 PIXEL FORENSICS // SGHSC TECH LAB")
 st.title("🖼️ Forensic Image Analyzer")
 
-# --- METRICS ---
-m1, m2 = st.columns(2)
-m1.metric("Pixel Accuracy", "99.1%", "Stable")
-m2.metric("Neural Layers", "128-bit", "Active")
+col1, col2 = st.columns(2)
+with col1:
+    st.metric("Pixel Accuracy", f"{percent}%", "Stable")
+with col2:
+    st.metric("Neural Layers", "128-bit", "Active")
 
-st.write("---")
-
-# --- TOOLS ---
-# Uploading, analyzing, and detecting artifacts
+# --- STEP 4: SCANNER INTERFACE ---
 file = st.file_uploader("Upload Image for Neural Processing", type=["jpg", "png", "jpeg"])
+
 if file:
-    st.image(file, width=350)
-    if st.button("Execute Deep Pixel Scan"):
-        with st.status("Analyzing lighting vectors...", expanded=True) as status:
+    st.image(file, caption="Source: Uploaded Buffer", use_container_width=True)
+    
+    if st.button("EXECUTE DEEP PIXEL SCAN"):
+        with st.status("Initializing Core Engine...", expanded=True) as status:
+            time.sleep(1)
+            st.write("Analyzing lighting vectors...")
             time.sleep(1)
             st.write("Checking for AI-generated symmetry patterns...")
             time.sleep(1)
-            status.update(label="Scan Complete", state="complete")
-        st.success("✅ AUTHENTICITY: 99.2% Human Originated")
-        # --- TOP UTILITY BAR ---
-# This creates a row of buttons at the very top of your page
-u1, u2, u3, u4 = st.columns([1, 1, 1, 4])
-with u1: 
-    if st.button("🏠 Home"): 
-        st.rerun()
-with u2:
-    if st.button("⚙️ Config"): 
-        st.toast("Security Clearance Required.", icon="🚫")
-with u3:
-    if st.button("🛠️ Tools"): 
-        st.toast("Opening Forensic Toolkit...", icon="🧰")
+            st.success(f"✅ AUTHENTICITY: {percent}% Human Originated")
+            status.update(label="Scan Complete", state="complete", expanded=False)
 
-st.write("---") # This line separates the buttons from your main content
+st.write("---")
