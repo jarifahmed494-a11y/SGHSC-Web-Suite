@@ -1,58 +1,52 @@
 import streamlit as st
-import random
 import time
 
-# --- STEP 1: DYNAMIC LOGIC ---
-# This makes the percentage change every time the page runs
-percent = round(random.uniform(92.1, 99.8), 1)
-
-# --- STEP 2: STYLING ---
+# --- 1. PAGE BACKGROUND ---
 st.markdown("""
     <style>
-    .main {
+    .stApp {
         background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                    url("https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80");
+                    url("https://images.unsplash.com/photo-1550751827-4bd374c3f58b");
         background-size: cover;
     }
-    .stButton>button {
-        width: 100%;
-        border-radius: 5px;
-        height: 3em;
-        background-color: #1f2937;
-        color: white;
-        border: 1px solid #374151;
-    }
-    .stButton>button:hover {
-        border-color: #00d4ff;
-        color: #00d4ff;
-    }
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
-# --- STEP 3: HEADER ---
-st.markdown("### 🔍 PIXEL FORENSICS // SGHSC TECH LAB")
-st.title("🖼️ Forensic Image Analyzer")
+# --- 2. HEADER & INTERFACE ---
+st.title("🛡️ DEEP-PIXEL SURVEILLANCE // SGHSC V2.5")
+st.subheader("AI vs Human Content Guard")
 
-col1, col2 = st.columns(2)
-with col1:
-    st.metric("Pixel Accuracy", f"{percent}%", "Stable")
-with col2:
-    st.metric("Neural Layers", "128-bit", "Active")
+uploaded_file = st.file_uploader("Insert Image for Forensic Decomposition", type=["jpg", "png", "jpeg"])
 
-# --- STEP 4: SCANNER INTERFACE ---
-file = st.file_uploader("Upload Image for Neural Processing", type=["jpg", "png", "jpeg"])
-
-if file:
-    st.image(file, caption="Source: Uploaded Buffer", use_container_width=True)
+if uploaded_file is not None:
+    st.image(uploaded_file, caption="Scanning Source Material...", use_container_width=True)
     
-    if st.button("EXECUTE DEEP PIXEL SCAN"):
-        with st.status("Initializing Core Engine...", expanded=True) as status:
-            time.sleep(1)
-            st.write("Analyzing lighting vectors...")
-            time.sleep(1)
-            st.write("Checking for AI-generated symmetry patterns...")
-            time.sleep(1)
-            st.success(f"✅ AUTHENTICITY: {percent}% Human Originated")
-            status.update(label="Scan Complete", state="complete", expanded=False)
+    # Forensic progress simulation
+    with st.status("Performing Neural Layer Analysis...", expanded=True) as status:
+        st.write("Extracting Metadata...")
+        time.sleep(1)
+        st.write("Scanning for GAN artifacts...")
+        time.sleep(1.5)
+        st.write("Verifying Pixel Consistency...")
+        time.sleep(1)
+        status.update(label="Analysis Complete!", state="complete", expanded=False)
 
-st.write("---")
+    # --- 3. THE AUTHENTICATION TRICK ---
+    file_name = uploaded_file.name
+    
+    # SET AS FALSE / AI GENERATED
+    if "Neural_Render" in file_name:
+        st.error(f"🚨 ALERT: HIGH PROBABILITY OF AI GENERATION DETECTED")
+        st.metric("Confidence Score", "98.4%", "NON-HUMAN")
+        st.warning("Forensic report: Latent space artifacts found in 128-bit neural layers.")
+    
+    # SET AS AUTHENTIC / HUMAN
+    elif "Nature_Capture" in file_name:
+        st.success(f"✅ VERIFIED: AUTHENTIC HUMAN CONTENT")
+        st.metric("Confidence Score", "99.1%", "STABLE")
+        st.info("Forensic report: Natural grain and consistent pixel metadata confirmed.")
+    
+    # DEFAULT SCAN FOR OTHER FILES
+    else:
+        st.info("Scanning unindexed file. Performing standard heuristic analysis...")
+        st.metric("Confidence Score", "N/A", "Scanning...")
